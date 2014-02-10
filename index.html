@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<!-- Some credit goes to Mike Bostock for the example here:
+http://bl.ocks.org/mbostock/4060606 -->
+<head>
+    <style>
+        div {
+            line-height: 1;
+        }
+
+        .chart div {
+            font: 12px sans-serif;
+            text-align: center;
+            color: white;
+            width: 40px;
+            height: 40px;
+            display:inline-block;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            background: #fff;
+            width: 100%;
+            max-width: 960px;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+
+        td {
+            padding: 5px;
+        }
+
+        h3 {
+            color: #0000aa;
+        }
+
+
+        .states {
+            fill: none;
+            stroke: #fff;
+            stroke-linejoin: round;
+        }
+
+        #week-div {
+            width: 1000px;
+            text-align: center;
+        }
+
+        #title-div {
+            text-align: center;
+            color: #0000aa;
+        }
+
+
+        #label-div {
+            width: 1000px;
+            text-align: center;
+        }
+
+        #slider-div-container {
+            width: 1000px;
+            text-align: center;
+        }
+
+        #slider-div {
+            text-align: center;
+            margin-left: 350px;
+        }
+
+        .ui-slider-horizontal {
+            width: 300px;
+        }
+
+        .state {
+            stroke: #fff;
+        }
+    </style>
+    <link href="scripts/vendor/jquery-simple-slider/css/simple-slider.css" rel="stylesheet" type="text/css" />
+    <link href="scripts/vendor/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <script data-main="scripts/main.js"
+        src="scripts/vendor/requirejs/require.js"></script>
+    <br />
+    <div id="title-div">
+        <h2>Visualizing Participation Growth of a Voice Based Social Media Platform in India</h2>
+    </div>
+    <table align='center'>
+        <tr cellspacing="20">
+            <td>
+                <h3>Aditya Vashistha</h3>
+            </td>
+            <td>
+                <h3>Sam Sudar</h3>
+            </td>
+        </tr>
+    </table>
+
+    <div id="week-div">
+        <h2>Select a Week</h2>
+    </div>
+    <div id="slider-div-container">
+        <div id="slider-div"></div>
+    </div>
+    <div id="label-div" text-align="center">
+        <h2 id="time-label"></h2>
+    </div>
+    <!--<div class="chart">-->
+         <!--<b>Total Calls &nbsp;</b>-->
+        <!--<div style="background-color: rgb(198,219,239); color:black">< 29</div>-->
+        <!--<div style="background-color: rgb(158,202,225); color: black">< 145</div>-->
+        <!--<div style="background-color: rgb(107,174,214); color: black">< 322</div>-->
+        <!--<div style="background-color: rgb(66,146,198)">< 472</div>-->
+        <!--<div style="background-color: rgb(33,113,181)">< 977</div>-->
+        <!--<div style="background-color: rgb(8,81,156)">< 2259</div>-->
+        <!--<div style="background-color: rgb(8,48,107)">< 8861  </div>-->
+    <!--</div>-->
+
+
+
+    <div id="map"></div>
+</body>
+</html>
