@@ -33,6 +33,8 @@ define(['jquery',
                     .attr('width', width)
                     .attr('height', height);
 
+                var timepoint = 1;
+
                 // These are the quantiles Aditya set up to use.
                 var domain = [29, 145, 322, 472, 977, 2259, 8861];
                 // These are the colors we're going to set to fill values, a la:
@@ -60,6 +62,9 @@ define(['jquery',
                     '< 8861',
 
                 ];
+                var div = d3.select("body").append("div")
+                            .attr("class", "tooltip")
+                            .style("opacity", 0);
 
                 // This is the function that actually performs the visualization. It
                 // expects to get the loaded TopoJSON of the states as well as the 
@@ -185,8 +190,7 @@ define(['jquery',
                             .attr('cx', 550)
                             .attr('cy', 200)
                             .attr('r', 50);
-//                            .style('fill', 'rgb(8,81,156)');
-                  
+
                     d3.select('svg').append('text')
                            .attr('x', 510)
                            .attr('y', 200)
@@ -238,6 +242,7 @@ define(['jquery',
                             return d.id.replace(/ /g, '_');
                         })
                         .attr('d', path);
+                       
 
                 }
 
@@ -270,7 +275,18 @@ define(['jquery',
                 }
 
                 function onSlide(event, ui) {
+                    timepoint = ui.value;
                     colorMap(ui.value);
+                }
+
+                function getValueForState(state) {
+                    var weekHeading = timeNames[timepoint - 1];
+                    var stateWithoutSpaces = state.replace(/ /g, '_');
+                    for (var row = 0; row < csvData.length; row++) {
+                        if ($.inArray(stateWithoutSpaces, states[row]) !== -1) {
+                            return csvData[row][weekHeading];
+                        }
+                    }
                 }
 
                 function colorMap(timeIndex) {
@@ -286,12 +302,54 @@ define(['jquery',
                         for (var state = 0; state < states[row].length; state++) {
                             var stateName = states[row][state];
                             if (stateName !== 'Not_defined') {
+
+                                console.log("value is:" + value);
+
                                 d3.select('svg').select('.' + stateName)
-                                    .style('fill', color);
+                                    .style('fill', color)
+                                    .on("mouseover", function (d) {
+                                        d3.select(this).transition().duration(300).style("opacity", 1);
+                                        div.transition().duration(300)
+                                        .style("opacity", 1)
+                                        div.text(function() {
+                                            var val = getValueForState(d.id);
+                                            console.log('val for ' + d.id + ' is: ' + val);
+                                            return d.id + ':\n' + val;
+                                        })
+                                        .style("left", (d3.event.pageX) + "px")
+                                        .style("top", (d3.event.pageY - 30) + "px");
+                                    })
+                                  .on("mouseout", function () {
+                                      d3.select(this)
+                                      .transition().duration(300)
+                                      .style("opacity", 1);
+                                      div.transition().duration(300)
+                                      .style("opacity", 0);
+                                  });
                             }
                             else {
                                 d3.select('svg').select('circle')
-                                    .style('fill', color);
+                                    .style('fill', color)
+                                    .on("mouseover", function (d) {
+                                        d3.select(this).transition().duration(300).style("opacity", 1);
+                                        div.transition().duration(300)
+                                        .style("opacity", 1)
+                                        div.text(function() {
+                                            var val = getValueForState('Not defined');
+                                            return 'Undefined Region:\n' + val;
+                                        })
+                                        .style("left", (d3.event.pageX) + "px")
+                                        .style("top", (d3.event.pageY - 30) + "px");
+                                                                    })
+                                  .on("mouseout", function () {
+                                      d3.select(this)
+                                      .transition().duration(300)
+                                      .style("opacity", 1);
+                                      div.transition().duration(300)
+                                      .style("opacity", 0);
+                                  });
+
+
                             }
                         }
                     }
